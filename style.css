@@ -1,0 +1,27 @@
+#wrapper, #button-row-3-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.div-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+button {
+    width: 40px;
+    height: 40px;
+}
+
+.btn-wide {
+    width: 85px;
+}
+
+.btn-high {
+    height: 90px;
+}
