@@ -1,3 +1,13 @@
+function operate(operator, a, b) {
+    switch (operator) {
+        case "+": return add(a,b);
+        case "-": return subtract(a,b);
+        case "*": return multiply(a,b);
+        case "/": return divide(a,b);
+        default: return "Error! Unknown operator."
+    }
+}
+
 function add(a,b) {
     return Math.add(a,b);
 }
