@@ -5,23 +5,39 @@ buttons.forEach( button => {
 
 const screen = document.querySelector("#screen");
 
-let number1 = "";
-let number2 = "";
-let operation = "";
+let number1;
+let number2;
+let operation;
+
+initiateVars();
+
+function initiateVars() {
+    operation = "";
+    number1 = "";
+    number2 = "";
+}
 
 function btnClick() {
     let btnValue = this.textContent;
 
-    if (!isNaN(parseInt(btnValue)) || btnValue === ".") {     
+    if ( !isNaN(parseInt(btnValue)) ) {     
         if (operation === "") {
-            if (btnValue === "." && number1.includes(".")) {
+            number1 += btnValue;
+            showOnScreen(number1);
+        } else {
+            number2 += btnValue;
+            showOnScreen(number2);
+        }
+    } else if (btnValue === ".") {
+        if (operation === "") {
+            if ( number1.includes(".") ) {
                 return;
             } else {
                 number1 += btnValue;
                 showOnScreen(number1);
             }
         } else {
-            if (btnValue === "." && number2.includes(".")) {
+            if ( number2.includes(".")) {
                 return;
             } else {
                 number2 += btnValue;
@@ -30,13 +46,9 @@ function btnClick() {
         }
     } else if (btnValue === "=") {
         showOnScreen(operate(operation, parseFloat(number1), parseFloat(number2)));
-        operation = "";
-        number1 = "";
-        number2 = "";
+        initiateVars();
     } else if (btnValue === "C") {
-        operation = "";
-        number1 = "";
-        number2 = "";
+        initiateVars();
         showOnScreen("");
     } else {
         operation = btnValue;
