@@ -46,6 +46,7 @@ function btnClick() {
         }
     } else if (btnValue === "=") {
         showOnScreen(operate(operation, parseFloat(number1), parseFloat(number2)));
+        screenValueToExp()
         initiateVars();
     } else if (btnValue === "C") {
         initiateVars();
@@ -53,6 +54,8 @@ function btnClick() {
     } else {
         operation = btnValue;
     }
+
+    checkScreenOverflow();
 }
 
 function operate(operator, a, b) {
@@ -82,5 +85,25 @@ function divide(a,b) {
 }
 
 function showOnScreen(value) {
-    screen.textContent = value;
+    screen.textContent = value;   
+}
+
+function checkScreenOverflow(clientWidth, scrollWidth) {
+    if (screen.scrollWidth > screen.clientWidth) {
+        screen.textContent = screen.textContent.slice(0, -1);
+
+        if (number2 === "") number1 = screen.textContent;
+        else number2 = screen.textContent;
+    }
+}
+
+function screenValueToExp() {
+    if (screen.scrollWidth > screen.clientWidth) {
+        let screenValue = parseFloat(screen.textContent);    
+        let numInExpNot = [];
+        [numInExpNot.coefficient, numInExpNot.exponent] =
+            screenValue.toExponential().split('e');
+        
+        screen.textContent = Math.round(numInExpNot.coefficient * 100) / 100 + "e" + numInExpNot.exponent;
+    }
 }
