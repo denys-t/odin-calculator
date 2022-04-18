@@ -3,7 +3,7 @@ buttons.forEach( button => {
     button.addEventListener('click', btnClick);
 });
 
-const screen = document.querySelector("#screen");
+const display = document.querySelector("#display");
 
 let number1;
 let number2;
@@ -23,39 +23,41 @@ function btnClick() {
     if ( !isNaN(parseInt(btnValue)) ) {     
         if (operation === "") {
             number1 += btnValue;
-            showOnScreen(number1);
+            showOnDisplay(number1);
         } else {
             number2 += btnValue;
-            showOnScreen(number2);
+            showOnDisplay(number2);
         }
     } else if (btnValue === ".") {
         if (operation === "") {
             if ( number1.includes(".") ) {
                 return;
             } else {
-                number1 += btnValue;
-                showOnScreen(number1);
+                number1 === "" ?  number1 = "0" + btnValue : number1 += btnValue;
+                showOnDisplay(number1);
             }
         } else {
             if ( number2.includes(".")) {
                 return;
             } else {
-                number2 += btnValue;
-                showOnScreen(number2);
+                number2 === "" ?  number2 = "0" + btnValue : number2 += btnValue;
+                showOnDisplay(number2);
             }
         }
     } else if (btnValue === "=") {
-        showOnScreen(operate(operation, parseFloat(number1), parseFloat(number2)));
-        screenValueToExp()
+        showOnDisplay(operate(operation, parseFloat(number1), parseFloat(number2)));
+        displayValueToExp()
         initiateVars();
     } else if (btnValue === "C") {
         initiateVars();
-        showOnScreen("");
+        showOnDisplay("");
     } else {
-        operation = btnValue;
+        if(number2 === "") {
+            operation = btnValue;
+        }
     }
 
-    checkScreenOverflow();
+    checkDisplayOverflow();
 }
 
 function operate(operator, a, b) {
@@ -84,26 +86,26 @@ function divide(a,b) {
     return a / b;
 }
 
-function showOnScreen(value) {
-    screen.textContent = value;   
+function showOnDisplay(value) {
+    display.textContent = value;   
 }
 
-function checkScreenOverflow(clientWidth, scrollWidth) {
-    if (screen.scrollWidth > screen.clientWidth) {
-        screen.textContent = screen.textContent.slice(0, -1);
+function checkDisplayOverflow(clientWidth, scrollWidth) {
+    if (display.scrollWidth > display.clientWidth) {
+        display.textContent = display.textContent.slice(0, -1);
 
-        if (number2 === "") number1 = screen.textContent;
-        else number2 = screen.textContent;
+        if (number2 === "") number1 = display.textContent;
+        else number2 = display.textContent;
     }
 }
 
-function screenValueToExp() {
-    if (screen.scrollWidth > screen.clientWidth) {
-        let screenValue = parseFloat(screen.textContent);    
+function displayValueToExp() {
+    if (display.scrollWidth > display.clientWidth) {
+        let displayValue = parseFloat(display.textContent);    
         let numInExpNot = [];
         [numInExpNot.coefficient, numInExpNot.exponent] =
-            screenValue.toExponential().split('e');
+            displayValue.toExponential().split('e');
         
-        screen.textContent = Math.round(numInExpNot.coefficient * 100) / 100 + "e" + numInExpNot.exponent;
+        display.textContent = Math.round(numInExpNot.coefficient * 100) / 100 + "e" + numInExpNot.exponent;
     }
 }
