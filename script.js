@@ -39,11 +39,15 @@ function btnClick() {
             }
         }
 
-        result = operate(operation, parseFloat(number1), parseFloat(number2));
-
-        showOnDisplay(result);
-        displayValueToExp();
-        initiateVars();
+        if (operation === "/" && number2 === "0") {
+            showOnDisplay("INFINITY");
+            initiateVars(true,true,true);
+        } else {
+            result = operate(operation, parseFloat(number1), parseFloat(number2));
+            showOnDisplay(result);
+            displayValueToExp();
+            initiateVars(); 
+        }
     } else if (btnValue === "C") {
         initiateVars(true,true,true);
         showOnDisplay("");
@@ -82,22 +86,32 @@ function operationWasPressed(btnValue) {
         number1 = result;
         number2 = currentNumber;
 
-        result = operate(operation, parseFloat(number1), parseFloat(number2));
-        operation = newOperation;            
-        showOnDisplay(result);
-        displayValueToExp();
-        initiateVars(false,false,true);
+        if (operation === "/" && number2 === "0") {
+            showOnDisplay("INFINITY");
+            initiateVars(true,true,true);
+        } else {
+            result = operate(operation, parseFloat(number1), parseFloat(number2));
+            showOnDisplay(result);
+            displayValueToExp();
+            initiateVars(false,false,true); 
+            operation = newOperation;
+        }
     } else if (number1 === '') {
         number1 = currentNumber;
         currentNumber = '';
     } else if (number2 === '') {
         number2 = currentNumber;
 
-        result = operate(operation, parseFloat(number1), parseFloat(number2));
-        operation = newOperation;            
-        showOnDisplay(result);
-        displayValueToExp();
-        initiateVars(false,false,true);
+        if (operation === "/" && number2 === "0") {
+            showOnDisplay("INFINITY");
+            initiateVars(true,true,true);
+        } else {
+            result = operate(operation, parseFloat(number1), parseFloat(number2));
+            showOnDisplay(result);
+            displayValueToExp();
+            initiateVars(false,false,true); 
+            operation = newOperation;
+        }
     }
 }
 
