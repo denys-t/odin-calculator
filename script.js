@@ -7,58 +7,100 @@ const display = document.querySelector("#display");
 
 let number1;
 let number2;
+let currentNumber;
 let operation;
+let result;
 
-initiateVars();
+initiateVars(true,true,true);
 
-function initiateVars() {
-    operation = "";
+function initiateVars(clearOperation = false, clearResult = false, clearNum2 = false) {
+    if (clearOperation) operation = "";
+    if (clearResult) result = null;
     number1 = "";
-    number2 = "";
+    if (clearNum2) number2 = "";
+    currentNumber = '';
 }
 
 function btnClick() {
     let btnValue = this.textContent;
 
     if ( !isNaN(parseInt(btnValue)) ) {     
-        if (operation === "") {
-            number1 += btnValue;
-            showOnDisplay(number1);
-        } else {
-            number2 += btnValue;
-            showOnDisplay(number2);
-        }
+        numberWasPressed(btnValue);
     } else if (btnValue === ".") {
-        if (operation === "") {
-            if ( number1.includes(".") ) {
-                return;
-            } else {
-                number1 === "" ?  number1 = "0" + btnValue : number1 += btnValue;
-                showOnDisplay(number1);
-            }
+        dotWasPressed();
+    } else if (btnValue === "=") {
+        if (operation === '') return;
+        if (number1 === "" && result != null) number1 = result;
+        if (number2 === "") {
+            currentNumber === '' ? number2 = number1 : number2 = currentNumber;
         } else {
-            if ( number2.includes(".")) {
-                return;
-            } else {
-                number2 === "" ?  number2 = "0" + btnValue : number2 += btnValue;
-                showOnDisplay(number2);
+            if (currentNumber != '') {
+                number2 = currentNumber;
             }
         }
-    } else if (btnValue === "=") {
-        showOnDisplay(operate(operation, parseFloat(number1), parseFloat(number2)));
-        displayValueToExp()
+
+        result = operate(operation, parseFloat(number1), parseFloat(number2));
+
+        showOnDisplay(result);
+        displayValueToExp();
         initiateVars();
     } else if (btnValue === "C") {
-        initiateVars();
+        initiateVars(true,true,true);
         showOnDisplay("");
     } else {
-        if(number2 === "") {
-            operation = btnValue;
-        }
+        operationWasPressed(btnValue);
     }
 
     checkDisplayOverflow();
 }
+
+function numberWasPressed(btnValue) {
+    currentNumber += btnValue;
+    showOnDisplay(currentNumber);
+}
+
+function dotWasPressed() {
+    if ( currentNumber.includes(".") ) {
+        return;
+    } else {
+        currentNumber === "" ?  currentNumber = "0." : currentNumber += ".";
+        showOnDisplay(currentNumber);
+    }
+}
+
+function operationWasPressed(btnValue) {
+    let newOperation = '';
+    operation === '' ? operation = btnValue : newOperation = btnValue;
+
+    if (currentNumber === '') {
+        operation = newOperation;
+        number2 = result;
+        return;
+    }
+
+    if (result != null) {
+        number1 = result;
+        number2 = currentNumber;
+
+        result = operate(operation, parseFloat(number1), parseFloat(number2));
+        operation = newOperation;            
+        showOnDisplay(result);
+        displayValueToExp();
+        initiateVars(false,false,true);
+    } else if (number1 === '') {
+        number1 = currentNumber;
+        currentNumber = '';
+    } else if (number2 === '') {
+        number2 = currentNumber;
+
+        result = operate(operation, parseFloat(number1), parseFloat(number2));
+        operation = newOperation;            
+        showOnDisplay(result);
+        displayValueToExp();
+        initiateVars(false,false,true);
+    }
+}
+
 
 function operate(operator, a, b) {
     switch (operator) {
