@@ -3,6 +3,12 @@ buttons.forEach( button => {
     button.addEventListener('click', btnClick);
 });
 
+window.addEventListener('keydown', function(e) {
+    const btn = this.document.querySelector(`button[data-key="${e.keyCode}"]`);
+    if (btn === null) return;
+    btn.click();
+});
+
 const display = document.querySelector("#display");
 
 let number1;
@@ -28,6 +34,9 @@ function btnClick() {
         numberWasPressed(btnValue);
     } else if (btnValue === ".") {
         dotWasPressed();
+    } else if (btnValue === "<" && currentNumber != "") {
+        currentNumber = currentNumber.slice(0,1);
+        showOnDisplay(currentNumber);
     } else if (btnValue === "=") {
         if (operation === '') return;
         if (number1 === "" && result != null) number1 = result;
