@@ -1,15 +1,19 @@
 const buttons = document.querySelectorAll("button");
 buttons.forEach( button => {
     button.addEventListener('click', btnClick);
+    button.addEventListener('mousedown', btnMouseDown);
+    button.addEventListener('mouseup', btnMouseUp);
 });
 
 window.addEventListener('keydown', function(e) {
     const btn = this.document.querySelector(`button[data-key="${e.keyCode}"]`);
     if (btn === null) return;
+    btn.mousedown();
     btn.click();
+    btn.mouseup();
 });
 
-const display = document.querySelector("#display");
+const display = document.querySelector("#display > p");
 
 let number1;
 let number2;
@@ -35,7 +39,7 @@ function btnClick() {
     } else if (btnValue === ".") {
         dotWasPressed();
     } else if (btnValue === "<" && currentNumber != "") {
-        currentNumber = currentNumber.slice(0,1);
+        currentNumber = currentNumber.slice(0,-1);
         showOnDisplay(currentNumber);
     } else if (btnValue === "=") {
         if (operation === '') return;
@@ -158,9 +162,7 @@ function showOnDisplay(value) {
 function checkDisplayOverflow(clientWidth, scrollWidth) {
     if (display.scrollWidth > display.clientWidth) {
         display.textContent = display.textContent.slice(0, -1);
-
-        if (number2 === "") number1 = display.textContent;
-        else number2 = display.textContent;
+        currentNumber = display.textContent;
     }
 }
 
@@ -172,5 +174,25 @@ function displayValueToExp() {
             displayValue.toExponential().split('e');
         
         display.textContent = Math.round(numInExpNot.coefficient * 100) / 100 + "e" + numInExpNot.exponent;
+    }
+}
+
+function btnMouseDown() {
+    if (this.classList.contains("btn-light")) {
+        this.classList.remove("btn-light");
+        this.classList.add("btn-light-pressed")
+    } else if (this.classList.contains("btn-dark")) {
+        this.classList.remove("btn-dark");
+        this.classList.add("btn-dark-pressed")
+    }
+}
+
+function btnMouseUp() {
+    if (this.classList.contains("btn-light-pressed")) {
+        this.classList.remove("btn-light-pressed");
+        this.classList.add("btn-light")
+    } else if (this.classList.contains("btn-dark-pressed")) {
+        this.classList.remove("btn-dark-pressed");
+        this.classList.add("btn-dark")
     }
 }

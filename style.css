@@ -3,56 +3,100 @@
     src: url(digital-7.ttf);
   }
 
-#wrapper, #button-row-3-left {
+body {
+    height: 90vh;
+    background-color: #CDD4DA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    line-height: 0;
+}
+
+#stripe {
+    background-color: #374353;
+    width: 300px;
+    height: 40px;
+    border-radius:  12px 12px 0 0;
+}
+
+#stripe p {
+    color: white;
+    margin: 20px 10px;
 }
 
 #display {
-    background-color: dimgray;
+    background-color: #505C68;
     color: aqua;
-    padding: 2px 5px 10px 5px;
-    width: 220px;
-    height: 40px;
+    padding: 5px;
+    width: 290px;
+    height: 80px;
     font-family: digital-7;
     font-size: 2.5em;
     text-align: right;
-    line-height: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+#display > p {
+    width: 290px;
+    margin-bottom: 15px;
 }
 
 .div-row {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5px;
 }
 
 button {
-    width: 40px;
-    height: 40px;
-    background-color: rgb(28, 28, 28);
+    width: 75px;
+    height: 50px;
     color: white;
+    border: 1px solid #778190;
+    font-size: large;
+}
+
+.button-click {
+    background-color: #A49582;
 }
 
 .btn-wide {
-    width: 85px;
+    width: 150px;
 }
 
 .btn-high {
     height: 90px;
 }
 
-#btn-bs, #btn-c {
-    background-color: firebrick;
+.btn-light {
+    background-color: #5B6A7D;
 }
 
-#btn-bs, #btn-clear {
-    background-color: firebrick;
+.btn-dark {
+    background-color: #374353;
 }
 
-#btn-e, #btn-a, #btn-s, #btn-m, #btn-d {
-    background-color: lightseagreen;
+.btn-light-pressed {
+    background-color: #A49582;
+}
+
+.btn-dark-pressed {
+    background-color: #C8BCAC;
+}
+
+#btn-e {
+    background-image: linear-gradient(to right, #F93E70, #FCA82D);
+    border-radius: 0 0 12px 0;
+}
+
+#btn-p {
+    border-radius: 0 0 0 12px;
 }
