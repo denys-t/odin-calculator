@@ -93,8 +93,15 @@ button {
 }
 
 #btn-e {
-    background-image: linear-gradient(to right, #F93E70, #FCA82D);
     border-radius: 0 0 12px 0;
+}
+
+.btn-e {
+    background-image: linear-gradient(to right, #F93E70, #FCA82D);
+}
+
+.btn-e-pressed {
+    background-image: linear-gradient(to right, #06C18F, #0357D2);
 }
 
 #btn-p {

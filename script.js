@@ -8,9 +8,27 @@ buttons.forEach( button => {
 window.addEventListener('keydown', function(e) {
     const btn = this.document.querySelector(`button[data-key="${e.keyCode}"]`);
     if (btn === null) return;
-    btn.mousedown();
+
+    if (document.createEvent) {
+        btn.dispatchEvent(new Event('mousedown'));
+    } else {
+        // Internet Explorer (I think)
+        btn.fireEvent("onmousedown", event); 
+    }
+
     btn.click();
-    btn.mouseup();
+});
+
+window.addEventListener('keyup', function(e) {
+    const btn = this.document.querySelector(`button[data-key="${e.keyCode}"]`);
+    if (btn === null) return;
+    
+    if (document.createEvent) {
+        btn.dispatchEvent(new Event('mouseup'));
+    } else {
+        // Internet Explorer (I think)
+        btn.fireEvent("onmouseup", event); 
+    }
 });
 
 const display = document.querySelector("#display > p");
@@ -184,6 +202,9 @@ function btnMouseDown() {
     } else if (this.classList.contains("btn-dark")) {
         this.classList.remove("btn-dark");
         this.classList.add("btn-dark-pressed")
+    } else if (this.classList.contains("btn-e")) {
+        this.classList.remove("btn-e");
+        this.classList.add("btn-e-pressed")
     }
 }
 
@@ -194,5 +215,8 @@ function btnMouseUp() {
     } else if (this.classList.contains("btn-dark-pressed")) {
         this.classList.remove("btn-dark-pressed");
         this.classList.add("btn-dark")
+    } else if (this.classList.contains("btn-e-pressed")) {
+        this.classList.remove("btn-e-pressed");
+        this.classList.add("btn-e")
     }
 }
